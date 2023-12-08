@@ -1,0 +1,94 @@
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+
+    
+    <ng-container *ngIf="isEntryVisible; then template2; else template1" ></ng-container>
+
+        <ng-template #template1>
+
+            <div class="header">
+                <h2>User Records</h2>
+            </div>
+
+            <div class="container">
+
+                <div class="row">
+                    <div class="col-md-5 mt-3 mb-3 mx-auto">
+                        <label class="text-secondary mb-2"><strong>Search user by Domain, Gender and Availability </strong></label>
+                        <div class="p-1 bg-light rounded rounded-pill shadow-sm mb-4">
+                            <div class="input-group">
+                            <input [(ngModel)]="searchText" type="search" placeholder="What're you searching for?" aria-describedby="button-addon1" class="form-control border-0 bg-light">
+                            <div class="input-group-append">
+                                <button id="button-addon1" type="submit" class="btn btn-link text-primary"><i class="fas fa-search"></i></button>
+                            </div>
+                            </div>
+                        </div>
+                    </div>
+        
+
+                    <div class="card-box" *ngIf="userRecord">
+                        <div *ngFor="let user of getUser() | search: searchText">
+                            <div class="card bg-success-subtle">
+                                <img [src]="user.avatar" class="card-img-top" alt="...">
+                                <div class="card-body">
+                                    <div class="text-section">
+                                        <h5 class="card-title">{{user.first_name}} {{user.last_name}}</h5>
+                                        <p class="card-text">{{user.domain}}</p>
+                                    </div>
+                                    <div class="cta-section">
+                                        <a href="#" class="btn btn-light" (click)="showDetails(user)">See details</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row  border-top border-2 pt-3">
+                    <!-- Bootstrap Pagination -->
+                    <nav aria-label="Page navigation example">
+                        <ul class="pagination justify-content-center ">
+                            <li class="page-item" *ngFor="let page of getPages()" [ngClass]="{ 'active': currentPage === page}">
+                                <a class="page-link" (click)="setPage(page)">{{ page }}</a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div> 
+
+            </div>
+
+        </ng-template>
+
+        <ng-template #template2>
+
+            <div class="header">
+                <h2>User Details</h2>
+            </div>
+
+            <div class="container">
+                <div class="row">
+                    <div>
+                        <a href="#" class="btn btn-light" (click)="hideEntry()">Back to user list</a>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="card-box m-auto" *ngIf="selectedUser">
+                        <div class="card bg-success-subtle">
+                            <img [src]="selectedUser.avatar" class="card-img-top" alt="...">
+                            <div class="card-body">
+                                <div class="text-section_detail">
+                                    <h5 class="card-title mb-3">{{selectedUser.first_name}} {{selectedUser.last_name}}</h5>
+                                    <p><strong>Id:</strong> {{ selectedUser.id }}</p>
+                                    <p><strong>Name:</strong> {{ selectedUser.first_name }} {{ selectedUser.last_name }}</p>
+                                    <p><strong>Email:</strong> {{ selectedUser.email }}</p>
+                                    <p><strong>Gender:</strong> {{ selectedUser.gender }}</p>
+                                    <p><strong>Domain:</strong> {{ selectedUser.domain }}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </ng-template>
+    
