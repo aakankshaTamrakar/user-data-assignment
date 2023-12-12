@@ -14,7 +14,7 @@
     justify-content: start;
 }
 .card {
-    width: 24rem;
+    width: 25rem;
     flex-direction: row;
     display: flex;
     background-color: #696969;
@@ -26,6 +26,7 @@
   .card.dark {
     color: #fff;
   }
+
   .card.card.bg-light-subtle .card-title {
     color: dimgrey;
   }
@@ -87,3 +88,8 @@
 }
 
 .card-box.m-auto{ justify-content: center;}
+
+.filterSec{
+  background: #ccc;
+  border-radius: 50px;
+}

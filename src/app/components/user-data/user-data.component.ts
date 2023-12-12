@@ -10,8 +10,14 @@ import { UserService } from 'src/app/services/user.service';
 export class UserDataComponent {
   public userRecord: IUserdata[];
   public searchText!: string;
-  selectedUser: IUserdata | null = null;
   public isEntryVisible :boolean;
+  selectedUser: IUserdata | null = null;
+
+  domains: string[] = [];
+  genders: string[] = [];
+
+  selectedDomain: string = '';
+  selectedGender: string = '';
 
   pageSize = 20;
   currentPage = 1;
@@ -38,6 +44,24 @@ export class UserDataComponent {
   public ngOnInit():void{
     this.userService.getUserDataFromJson().subscribe((data:IUserdata[]) => {
       this.userRecord = data;
+      this.extractDomainsAndGenders();
+    });
+  }
+
+  private extractDomainsAndGenders(): void {
+    // Extract unique domains and genders from the user data
+    this.domains = Array.from(new Set(this.userRecord.map((user) => user.domain)));
+    this.genders = Array.from(new Set(this.userRecord.map((user) => user.gender)));
+  }
+  
+  applyFilters(): void {
+    // Filter users based on selected domain and gender
+    this.userService.getUserDataFromJson().subscribe((data:IUserdata[]) => {
+      this.userRecord = data.filter(
+        (user) =>
+          (!this.selectedDomain || user.domain === this.selectedDomain) &&
+          (!this.selectedGender || user.gender === this.selectedGender)
+      );
     });
   }
 
